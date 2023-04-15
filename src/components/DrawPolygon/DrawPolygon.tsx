@@ -1,5 +1,6 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 import Draw from "@arcgis/core/views/draw/Draw";
+import Search from "@arcgis/core/widgets/Search";
 
 import { createMap, createViewMap } from "../../helpers/mapManager";
 
@@ -26,7 +27,14 @@ export function DrawPolygon(props: TDrawPolygonProps) {
       const map = createMap();
 
       const viewMap = createViewMap(map, center, zoomLevel, mapRef);
-      // viewMap.ui.add("line-button", "top-left");
+      const searchWidget = new Search({
+        view: viewMap,
+      });
+
+      viewMap.ui.add(searchWidget, {
+        position: "top-left",
+        index: 0,
+      });
 
       const draw = new Draw({
         view: viewMap,

@@ -1,7 +1,7 @@
 import Graphic from "@arcgis/core/Graphic";
 import MapView from "@arcgis/core/views/MapView";
 import Polyline from "@arcgis/core/geometry/Polyline";
-import SimpleLineSymbol from "@arcgis/core/symbols/SimpleLineSymbol";
+import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol";
 
 import { getIntersectingSegment } from "../../utils/map";
 
@@ -16,11 +16,14 @@ export function createPolyline(event: any, view: MapView) {
       paths: vertices,
       spatialReference: view.spatialReference,
     }),
-    symbol: new SimpleLineSymbol({
-      color: [4, 90, 141],
-      width: 4,
-      cap: "round",
-      join: "round",
+    symbol: new SimpleFillSymbol({
+      color: [227, 139, 79, 0.5],
+      outline: {
+        color: [4, 90, 141],
+        width: 2,
+        cap: "round",
+        join: "round",
+      },
     }),
   });
 
