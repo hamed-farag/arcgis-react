@@ -30,12 +30,13 @@ export function registerViewControl(
 export function registerDrawControl(
   mapView: MapView,
   draw: Draw,
-  buttonRef: React.RefObject<HTMLDivElement>
+  buttonRef: React.RefObject<HTMLDivElement>,
+  onComplete: (vertices: Array<Array<number>>) => void
 ) {
   if (buttonRef && buttonRef.current) {
     buttonRef.current.onclick = function () {
       // creates and returns an instance of PolyLineDrawAction
-      const action = draw.create("polyline");
+      const action = draw.create("polyline", { mode: "click" });
       mapView.graphics.removeAll();
 
       // focus the view to activate keyboard shortcuts for sketching
@@ -48,7 +49,7 @@ export function registerDrawControl(
       action.on("cursor-update", (e) => handleCreatePolyline(e, mapView));
       action.on("redo", (e) => handleCreatePolyline(e, mapView));
       action.on("undo", (e) => handleCreatePolyline(e, mapView));
-      action.on("draw-complete", (e) => handleCreatePolyline(e, mapView));
+      action.on("draw-complete", (e) => onComplete(e.vertices));
     };
   }
 }
