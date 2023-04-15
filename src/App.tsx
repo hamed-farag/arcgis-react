@@ -1,6 +1,7 @@
 import EsriConfig from "@arcgis/core/config";
 
-import { ThreeDMap } from "./components/ThreeDMap";
+// import { ThreeDMap } from "./components/ThreeDMap";
+import { DrawPolygon } from "./components/DrawPolygon";
 
 import "./app.css";
 
@@ -13,8 +14,9 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <ThreeDMap {...configs} />
+    <div>
+      {/* <ThreeDMap {...configs} /> */}
+      <DrawPolygon {...configs} />
     </div>
   );
 }

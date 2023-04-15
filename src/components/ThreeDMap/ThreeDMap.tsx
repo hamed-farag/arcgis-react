@@ -39,6 +39,6 @@ export function ThreeDMap(props: TThreeDMapProps) {
   }, []);
 
   return (
-    <div className="map" ref={mapRef as React.LegacyRef<HTMLDivElement>}></div>
+    <div className="three-d-map" ref={mapRef as React.LegacyRef<HTMLDivElement>}></div>
   );
 }
