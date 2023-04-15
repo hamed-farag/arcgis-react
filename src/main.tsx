@@ -3,6 +3,8 @@ import ReactDOM from "react-dom/client";
 
 import App from "./App";
 
+import "@arcgis/core/assets/esri/themes/light/main.css";
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <App />
