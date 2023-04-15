@@ -31,7 +31,9 @@ export function DrawPolygon(props: TDrawPolygonProps) {
   const clearButtonRef = useRef(null);
 
   useEffect(() => {
-    onComplete(points);
+    if (onComplete && onComplete instanceof Function) {
+      onComplete(points);
+    }
   }, [points]);
 
   useEffect(() => {
