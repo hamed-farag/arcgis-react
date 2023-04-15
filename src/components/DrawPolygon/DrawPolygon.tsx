@@ -1,9 +1,13 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import Draw from "@arcgis/core/views/draw/Draw";
 
 import { createMap, createViewMap } from "../../helpers/mapManager";
 
-import { registerDrawControl } from "./buttonHandlers";
+import {
+  registerDrawControl,
+  registerClearControl,
+  registerViewControl,
+} from "./buttonHandlers";
 
 type TDrawPolygonProps = {
   center: Array<number>;
@@ -13,7 +17,9 @@ type TDrawPolygonProps = {
 export function DrawPolygon(props: TDrawPolygonProps) {
   const { center, zoomLevel } = props;
   const mapRef = useRef(null);
+  const viewButtonRef = useRef(null);
   const drawButtonRef = useRef(null);
+  const clearButtonRef = useRef(null);
 
   useEffect(() => {
     if (mapRef.current) {
@@ -26,7 +32,9 @@ export function DrawPolygon(props: TDrawPolygonProps) {
         view: viewMap,
       });
 
+      registerViewControl(draw, viewButtonRef);
       registerDrawControl(viewMap, draw, drawButtonRef);
+      registerClearControl(viewMap, draw, clearButtonRef);
     }
   }, []);
 
@@ -34,7 +42,7 @@ export function DrawPolygon(props: TDrawPolygonProps) {
     <div>
       <div className="draw-map" ref={mapRef}></div>
       <div id="draw-tools">
-        <button id="view-button" type="button">
+        <button id="view-button" type="button" ref={viewButtonRef}>
           View
         </button>
         <button id="draw-button" type="button" ref={drawButtonRef}>
@@ -46,7 +54,7 @@ export function DrawPolygon(props: TDrawPolygonProps) {
         <button id="redo-button" type="button">
           redo
         </button>
-        <button id="cancel-button" type="button">
+        <button id="cancel-button" type="button" ref={clearButtonRef}>
           cancel
         </button>
       </div>

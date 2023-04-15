@@ -15,18 +15,28 @@ function handleCreatePolyline(e: any, view: MapView) {
   }
 }
 
+export function registerViewControl(
+  draw: Draw,
+  buttonRef: React.RefObject<HTMLDivElement>
+) {
+  // draw polyline button
+  if (buttonRef && buttonRef.current) {
+    buttonRef.current.onclick = function () {
+      draw.complete();
+    };
+  }
+}
+
 export function registerDrawControl(
   mapView: MapView,
   draw: Draw,
-  drawButtonRef: React.RefObject<HTMLDivElement>
+  buttonRef: React.RefObject<HTMLDivElement>
 ) {
-  // draw polyline button
-  if (drawButtonRef && drawButtonRef.current) {
-    drawButtonRef.current.onclick = function () {
-      mapView.graphics.removeAll();
-
+  if (buttonRef && buttonRef.current) {
+    buttonRef.current.onclick = function () {
       // creates and returns an instance of PolyLineDrawAction
       const action = draw.create("polyline");
+      mapView.graphics.removeAll();
 
       // focus the view to activate keyboard shortcuts for sketching
       mapView.focus();
@@ -36,9 +46,22 @@ export function registerDrawControl(
       action.on("vertex-add", (e) => handleCreatePolyline(e, mapView));
       action.on("vertex-remove", (e) => handleCreatePolyline(e, mapView));
       action.on("cursor-update", (e) => handleCreatePolyline(e, mapView));
-      // action.on("redo", (e) => handleCreatePolyline(e, mapView));
-      // action.on("undo", (e) => handleCreatePolyline(e, mapView));
+      action.on("redo", (e) => handleCreatePolyline(e, mapView));
+      action.on("undo", (e) => handleCreatePolyline(e, mapView));
       action.on("draw-complete", (e) => handleCreatePolyline(e, mapView));
+    };
+  }
+}
+
+export function registerClearControl(
+  mapView: MapView,
+  draw: Draw,
+  buttonRef: React.RefObject<HTMLDivElement>
+) {
+  if (buttonRef && buttonRef.current) {
+    buttonRef.current.onclick = function () {
+      mapView.graphics.removeAll();
+      draw.destroy();
     };
   }
 }
