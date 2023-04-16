@@ -10,14 +10,17 @@ export function createPolyline(event: any, view: MapView) {
   const vertices = event.vertices;
   view.graphics.removeAll();
 
+  const polyline = new Polyline({
+    paths: vertices,
+    spatialReference: view.spatialReference,
+  });
+
   // a graphic representing the polyline that is being drawn
   const graphic = new Graphic({
-    geometry: new Polyline({
-      paths: vertices,
-      spatialReference: view.spatialReference,
-    }),
+    geometry: polyline,
     symbol: new SimpleFillSymbol({
       color: [227, 139, 79, 0.5],
+      style: "solid",
       outline: {
         color: [4, 90, 141],
         width: 2,

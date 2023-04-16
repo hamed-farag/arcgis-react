@@ -16,7 +16,12 @@ function App() {
   return (
     <div>
       {/* <ThreeDMap {...configs} /> */}
-      <DrawPolygon {...configs} />
+      <DrawPolygon
+        {...configs}
+        onComplete={(points) => {
+          console.info("points", points);
+        }}
+      />
     </div>
   );
 }
