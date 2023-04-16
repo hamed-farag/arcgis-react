@@ -4,9 +4,13 @@ import Draw from "@arcgis/core/views/draw/Draw";
 
 import { createPolyline } from "../../helpers/graphicManager";
 
-function handleCreatePolyline(e: any, view: MapView) {
+function handleCreatePolyline(
+  e: any,
+  view: MapView,
+  isComplete: boolean = false
+) {
   // create a polyline from returned vertices
-  const result = createPolyline(e, view);
+  const result = createPolyline(e, view, isComplete);
 
   // if the last vertex is making the line intersects itself,
   // prevent the events from firing
@@ -49,7 +53,14 @@ export function registerDrawControl(
       action.on("cursor-update", (e) => handleCreatePolyline(e, mapView));
       action.on("redo", (e) => handleCreatePolyline(e, mapView));
       action.on("undo", (e) => handleCreatePolyline(e, mapView));
-      action.on("draw-complete", (e) => onComplete(e.vertices));
+      action.on("draw-complete", (e) => {
+        handleCreatePolyline(e, mapView, true);
+
+        const clonedVertices = [...e.vertices];
+        // REMOVE THE LAST 
+        clonedVertices.pop();
+        onComplete(clonedVertices);
+      });
     };
   }
 }

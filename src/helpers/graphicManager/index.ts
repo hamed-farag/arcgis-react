@@ -6,8 +6,15 @@ import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol";
 import { getIntersectingSegment } from "../../utils/map";
 
 // BASED ON: @arcgis\core\interfaces.d.ts, Event is any
-export function createPolyline(event: any, view: MapView) {
+export function createPolyline(event: any, view: MapView, isComplete: boolean) {
   const vertices = event.vertices;
+
+  // To close the Polygon, push the first vertex to the end of the array
+  // this for drawing only, but we should send the vertices without the last one
+  if (isComplete) {
+    vertices.push(vertices[0]);
+  }
+
   view.graphics.removeAll();
 
   const polyline = new Polyline({
