@@ -2,13 +2,33 @@ import MapView from "@arcgis/core/views/MapView";
 import Search from "@arcgis/core/widgets/Search";
 import SketchViewModel from "@arcgis/core/widgets/Sketch/SketchViewModel";
 
-function onGraphicUpdate(event: any, sketchViewModel: SketchViewModel) {
+import { getIntersectingSegment } from "../../utils/map";
+
+function onGraphicUpdate(
+  event: any,
+  view: MapView,
+  sketchViewModel: SketchViewModel
+) {
+  const intersectingSegment = getIntersectingSegment(
+    event.graphics[0].geometry,
+    view
+  );
+
   if (
     event.toolEventInfo &&
     (event.toolEventInfo.type === "move-stop" ||
       event.toolEventInfo.type === "reshape-stop")
   ) {
-    sketchViewModel.complete();
+    if (intersectingSegment === null) {
+      sketchViewModel.complete();
+    } else if (event.state === "complete") {
+      // graphic moving or reshaping has been completed or cancelled (distinguish with aborted property)
+      // if the graphic is in an illegal spot, call sketchviewmodel's update method again
+      // giving user a chance to correct the location of the graphic
+      if (intersectingSegment !== null) {
+        sketchViewModel.update([event.graphics], { tool: "reshape" });
+      }
+    }
   }
 }
 
@@ -58,7 +78,7 @@ export function registerViewHandlers(
 
   view.when(() => {
     sketchViewModel.on(["update", "undo", "redo"], (e: any) =>
-      onGraphicUpdate(e, sketchViewModel)
+      onGraphicUpdate(e, view, sketchViewModel)
     );
   });
 }

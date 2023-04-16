@@ -8,9 +8,10 @@
 
 // TODO: drag drew polygon -- DONE
 // TODO: auto close the polygon (magnet) -- DONE
+// TODO: ISSUE - PREVENT USE TO CLICK OUTSIDE IF SHAPE IS INTERSECTED
+// TODO: GET POINTS AFTER RESHAPING COMPLETE
 
-## Drag
-
+## Drag - DONE
 https://codepen.io/solowt/pen/QqoaeK?editors=1000
 https://developers.arcgis.com/javascript/latest/sample-code/sandbox/?sample=sketch-update-validation
 
