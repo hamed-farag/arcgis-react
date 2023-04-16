@@ -1,7 +1,13 @@
 .three-d-map {
-    height: 600px;
+  height: 600px;
 }
 
 .draw-map {
-    height: 600px;
+  height: 600px;
+}
+
+.instructions {
+  width: 450px;
+  background: #fff;
+  padding: 20px;
 }
