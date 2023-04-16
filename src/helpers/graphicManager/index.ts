@@ -41,6 +41,9 @@ export function createPolyline(
         join: "round",
       },
     }),
+    attributes: {
+      areaName: "polyline",
+    },
   });
 
   // check if the polyline intersects itself.

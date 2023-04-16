@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import Draw from "@arcgis/core/views/draw/Draw";
-import Search from "@arcgis/core/widgets/Search";
 import MapView from "@arcgis/core/views/MapView";
 import Expand from "@arcgis/core/widgets/Expand";
 // import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
+import SketchViewModel from "@arcgis/core/widgets/Sketch/SketchViewModel";
 import * as webMercatorUtils from "@arcgis/core/geometry/support/webMercatorUtils";
 
 import { createMap, createViewMap } from "../../helpers/mapManager";
@@ -15,14 +15,13 @@ import {
   registerViewControl,
 } from "./buttonHandlers";
 
+import { registerViewHandlers } from "./viewHandlers";
+
 type TDrawPolygonProps = {
   center: Array<number>;
   zoomLevel: number;
   onComplete: (points: Array<Array<number>>) => void;
 };
-
-// TODO: drag drawed polygon
-// TODO: auto close the polygon (magnite) -- DONE
 
 export function DrawPolygon(props: TDrawPolygonProps) {
   const { center, zoomLevel, onComplete } = props;
@@ -65,32 +64,33 @@ export function DrawPolygon(props: TDrawPolygonProps) {
 
   useEffect(() => {
     if (mapRef.current) {
-      const graphicsLayer = new GraphicsLayer();
-      const map = createMap([graphicsLayer]);
+      const graphicLayer = new GraphicsLayer();
+      const map = createMap([graphicLayer]);
 
       const viewMap = createViewMap(map, center, zoomLevel, mapRef);
-      const searchWidget = new Search({
-        view: viewMap,
-      });
-
-      // Add Search Widget
-      viewMap.ui.add(searchWidget, {
-        position: "top-left",
-        index: 0,
-      });
 
       const draw = new Draw({
         view: viewMap,
       });
 
+      const sketchViewModel = new SketchViewModel({
+        view: viewMap,
+        layer: graphicLayer,
+        updateOnGraphicClick: false,
+        defaultUpdateOptions: {
+          // set the default options for the update operations
+          toggleToolOnClick: false, // only reshape operation will be enabled
+        },
+      });
+
       instructionSetup(viewMap);
+      registerViewHandlers(viewMap, sketchViewModel);
 
       registerViewControl(draw, viewButtonRef);
-      registerClearControl(viewMap, draw, clearButtonRef);
-
+      registerClearControl(graphicLayer, draw, clearButtonRef);
       registerDrawControl(
         viewMap,
-        graphicsLayer,
+        graphicLayer,
         draw,
         drawButtonRef,
         (vertices) => {

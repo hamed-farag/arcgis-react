@@ -44,7 +44,7 @@ export function registerDrawControl(
     buttonRef.current.onclick = function () {
       // creates and returns an instance of PolyLineDrawAction
       const action = draw.create("polyline", { mode: "click" });
-      mapView.graphics.removeAll();
+      graphicLayer.removeAll();
 
       // focus the view to activate keyboard shortcuts for sketching
       mapView.focus();
@@ -75,13 +75,13 @@ export function registerDrawControl(
 }
 
 export function registerClearControl(
-  mapView: MapView,
+  graphicLayer: GraphicsLayer,
   draw: Draw,
   buttonRef: React.RefObject<HTMLDivElement>
 ) {
   if (buttonRef && buttonRef.current) {
     buttonRef.current.onclick = function () {
-      mapView.graphics.removeAll();
+      graphicLayer.removeAll();
       draw.destroy();
     };
   }
