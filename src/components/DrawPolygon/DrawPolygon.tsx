@@ -3,6 +3,8 @@ import Draw from "@arcgis/core/views/draw/Draw";
 import Search from "@arcgis/core/widgets/Search";
 import MapView from "@arcgis/core/views/MapView";
 import Expand from "@arcgis/core/widgets/Expand";
+// import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import * as webMercatorUtils from "@arcgis/core/geometry/support/webMercatorUtils";
 
 import { createMap, createViewMap } from "../../helpers/mapManager";
@@ -63,7 +65,8 @@ export function DrawPolygon(props: TDrawPolygonProps) {
 
   useEffect(() => {
     if (mapRef.current) {
-      const map = createMap();
+      const graphicsLayer = new GraphicsLayer();
+      const map = createMap([graphicsLayer]);
 
       const viewMap = createViewMap(map, center, zoomLevel, mapRef);
       const searchWidget = new Search({
@@ -85,19 +88,25 @@ export function DrawPolygon(props: TDrawPolygonProps) {
       registerViewControl(draw, viewButtonRef);
       registerClearControl(viewMap, draw, clearButtonRef);
 
-      registerDrawControl(viewMap, draw, drawButtonRef, (vertices) => {
-        const points: Array<Array<number>> = [];
+      registerDrawControl(
+        viewMap,
+        graphicsLayer,
+        draw,
+        drawButtonRef,
+        (vertices) => {
+          const points: Array<Array<number>> = [];
 
-        vertices.forEach((vertex) => {
-          const point = {
-            x: vertex[0],
-            y: vertex[1],
-          };
-          points.push(webMercatorUtils.xyToLngLat(point.x, point.y));
-        });
+          vertices.forEach((vertex) => {
+            const point = {
+              x: vertex[0],
+              y: vertex[1],
+            };
+            points.push(webMercatorUtils.xyToLngLat(point.x, point.y));
+          });
 
-        setPoints(points);
-      });
+          setPoints(points);
+        }
+      );
     }
   }, []);
 

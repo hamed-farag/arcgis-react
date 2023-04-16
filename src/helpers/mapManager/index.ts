@@ -1,12 +1,14 @@
 import Map from "@arcgis/core/Map";
+import Layer from "@arcgis/core/layers/Layer";
 import SceneView from "@arcgis/core/views/SceneView";
 import MapView from "@arcgis/core/views/MapView";
 import CameraProperties from "@arcgis/core/Camera";
 
-export function createMap() {
+export function createMap(layers?: Array<Layer>) {
   return new Map({
     basemap: "arcgis-light-gray",
     ground: "world-elevation",
+    layers
   });
 }
 
