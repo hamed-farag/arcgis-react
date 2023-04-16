@@ -46,12 +46,12 @@ export function DrawPolygon(props: TDrawPolygonProps) {
       view.ui.add(instructionsExpand, "top-left");
 
       // hide the instructions expand widget when the view becomes focused
-      view.watch("focused", (newValue, oldValue, property, object) => {
+      // view.watch("focused", (newValue, oldValue, property, object) => {
+      view.watch("focused", (newValue) => {
         if (newValue) {
           instructionsExpand.expanded = false;
         }
       });
-      // invalidSymbol = createSymbol([255, 0, 0], "diagonal-cross", 4, [255, 0, 0]);
     }
   };
 
