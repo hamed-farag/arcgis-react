@@ -1,7 +1,7 @@
 import EsriConfig from "@arcgis/core/config";
 
-// import { ThreeDMap } from "./components/ThreeDMap";
-import { DrawPolygon } from "./components/DrawPolygon";
+import { ThreeDMap } from "./components/ThreeDMap";
+// import { DrawPolygon } from "./components/DrawPolygon";
 
 import "./app.css";
 
@@ -15,13 +15,13 @@ function App() {
 
   return (
     <div>
-      {/* <ThreeDMap {...configs} /> */}
-      <DrawPolygon
+      <ThreeDMap {...configs} />
+      {/* <DrawPolygon
         {...configs}
         onComplete={(points) => {
           console.info("points", points);
         }}
-      />
+      /> */}
     </div>
   );
 }

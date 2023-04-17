@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from "react";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 
 import { createMap, createSceneMap } from "../../helpers/mapManager";
-import { createFloor } from "./Floor";
+import { createSpace } from "./Space";
 
 import { building } from "../../data";
 
@@ -25,13 +25,15 @@ export function ThreeDMap(props: TThreeDMapProps) {
       const graphicsLayer = new GraphicsLayer();
 
       building.spaces.forEach((space) => {
-        const floor = createFloor(
+        const spaceGraphic = createSpace(
+          space.id,
+          space.name,
           space.coordinates,
           space.altitude,
           space.color
         );
 
-        graphicsLayer.add(floor);
+        graphicsLayer.add(spaceGraphic);
       });
 
       map.add(graphicsLayer);
@@ -39,6 +41,9 @@ export function ThreeDMap(props: TThreeDMapProps) {
   }, []);
 
   return (
-    <div className="three-d-map" ref={mapRef as React.LegacyRef<HTMLDivElement>}></div>
+    <div
+      className="three-d-map"
+      ref={mapRef as React.LegacyRef<HTMLDivElement>}
+    ></div>
   );
 }

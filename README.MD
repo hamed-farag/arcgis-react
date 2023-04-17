@@ -1,6 +1,6 @@
 ## ThreeDMap
 
-// TODO: Handle on click floor
+// TODO: Handle on click space
 // TODO: Handle Negative Altitude
 // TODO: Render Space Name
 
