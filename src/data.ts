@@ -28,7 +28,7 @@ const building = {
     },
     {
       id: 1,
-      name: "Space 2",
+      name: "Space 3",
       color: "green",
       altitude: 3,
       coordinates: [
