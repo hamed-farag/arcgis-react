@@ -9,28 +9,28 @@ React Typescript project generated with [vitejs.dev](https://vitejs.dev/), conta
 
 ## How to Start?
 
-- create developer account on ArcGIS to get API Key [https://developers.arcgis.com/sign-up/](https://developers.arcgis.com/sign-up/)
+- Create developer account on ArcGIS to get API Key [https://developers.arcgis.com/sign-up/](https://developers.arcgis.com/sign-up/)
 - Clone the repo [https://developers.arcgis.com/sign-up/](https://github.com/hamed-farag/arcgis-react.git)
 - Create `.env` file by coping `.env.example`
 - Update `VITE_ARCGIS_API_KEY` key with your API Key
-- Run in you console the `npm run dev`
+- Run in your console the `npm run dev`
 
-### TODO
+## TODO
 
-#### ThreeDMap
+### ThreeDMap
 
 - [ ] Handle on click space
 - [ ] Handle Negative Altitude
 - [ ] Render Space Name
 
-#### DrawPolygon
+### DrawPolygon
 
 - [x] Drag drew polygon
 - [x] Auto close the polygon (magnet)
 - [ ] ISSUE - PREVENT USE TO CLICK OUTSIDE IF SHAPE IS INTERSECTED
 - [ ] GET POINTS AFTER RESHAPING COMPLETE
 
-### References
+## References
 
 - [Drag - CodePen](https://codepen.io/solowt/pen/QqoaeK?editors=1000)
 - [Reshape - ArcGIS Example](https://developers.arcgis.com/javascript/latest/sample-code/sandbox/?sample=sketch-update-validation)
