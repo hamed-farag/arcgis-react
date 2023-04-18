@@ -7,7 +7,8 @@ import { getIntersectingSegment } from "../../utils/map";
 function onGraphicUpdate(
   event: any,
   view: MapView,
-  sketchViewModel: SketchViewModel
+  sketchViewModel: SketchViewModel,
+  onComplete: (vertices: Array<Array<number>>) => void
 ) {
   const intersectingSegment = getIntersectingSegment(
     event.graphics[0].geometry,
@@ -21,13 +22,21 @@ function onGraphicUpdate(
   ) {
     if (intersectingSegment === null) {
       sketchViewModel.complete();
-    } else if (event.state === "complete") {
-      // graphic moving or reshaping has been completed or cancelled (distinguish with aborted property)
-      // if the graphic is in an illegal spot, call sketchviewmodel's update method again
-      // giving user a chance to correct the location of the graphic
-      if (intersectingSegment !== null) {
-        sketchViewModel.update([event.graphics], { tool: "reshape" });
-      }
+    }
+  }
+
+  if (event.state === "complete") {
+    // graphic moving or reshaping has been completed or cancelled (distinguish with aborted property)
+    // if the graphic is in an illegal spot, call sketchviewmodel's update method again
+    // giving user a chance to correct the location of the graphic
+    if (intersectingSegment !== null) {
+      sketchViewModel.update([event.graphics], { tool: "reshape" });
+    } else {
+      // if the graphic is in a legal spot, remove the last vertex
+      const clonedVertices = [...event.graphics[0].geometry.paths[0]];
+      // REMOVE THE LAST
+      clonedVertices.pop();
+      onComplete(clonedVertices);
     }
   }
 }
@@ -62,7 +71,8 @@ function setUpGraphicClickHandler(
 
 export function registerViewHandlers(
   view: MapView,
-  sketchViewModel: SketchViewModel
+  sketchViewModel: SketchViewModel,
+  onComplete: (vertices: Array<Array<number>>) => void
 ) {
   const searchWidget = new Search({
     view,
@@ -78,7 +88,7 @@ export function registerViewHandlers(
 
   view.when(() => {
     sketchViewModel.on(["update", "undo", "redo"], (e: any) =>
-      onGraphicUpdate(e, view, sketchViewModel)
+      onGraphicUpdate(e, view, sketchViewModel, onComplete)
     );
   });
 }

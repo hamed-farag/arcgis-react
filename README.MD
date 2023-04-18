@@ -19,16 +19,16 @@ React Typescript project generated with [vitejs.dev](https://vitejs.dev/), conta
 
 ### ThreeDMap
 
-- [ ] Handle on click space
+- [X] Handle on click space
 - [ ] Handle Negative Altitude
-- [ ] Render Space Name
+- [X] Render Space Name
 
 ### DrawPolygon
 
-- [x] Drag drew polygon
-- [x] Auto close the polygon (magnet)
+- [X] Drag drew polygon
+- [X] Auto close the polygon (magnet)
 - [ ] ISSUE - PREVENT USE TO CLICK OUTSIDE IF SHAPE IS INTERSECTED
-- [ ] GET POINTS AFTER RESHAPING COMPLETE
+- [X] GET POINTS AFTER RESHAPING COMPLETE
 
 ## References
 

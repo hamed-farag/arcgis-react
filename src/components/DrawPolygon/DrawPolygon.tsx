@@ -84,7 +84,19 @@ export function DrawPolygon(props: TDrawPolygonProps) {
       });
 
       instructionSetup(viewMap);
-      registerViewHandlers(viewMap, sketchViewModel);
+      registerViewHandlers(viewMap, sketchViewModel, (vertices) => {
+        const points: Array<Array<number>> = [];
+
+        vertices.forEach((vertex) => {
+          const point = {
+            x: vertex[0],
+            y: vertex[1],
+          };
+          points.push(webMercatorUtils.xyToLngLat(point.x, point.y));
+        });
+
+        setPoints(points);
+      });
 
       registerViewControl(draw, viewButtonRef);
       registerClearControl(graphicLayer, draw, clearButtonRef);
