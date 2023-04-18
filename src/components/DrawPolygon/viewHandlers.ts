@@ -4,6 +4,23 @@ import SketchViewModel from "@arcgis/core/widgets/Sketch/SketchViewModel";
 
 import { getIntersectingSegment } from "../../utils/map";
 
+function createSymbol(
+  color: Array<number>,
+  style: string,
+  width: number,
+  outlineColor: Array<number>
+) {
+  return {
+    type: "simple-fill",
+    style: style,
+    color: color,
+    outline: {
+      color: outlineColor,
+      width: width,
+    },
+  };
+}
+
 function onGraphicUpdate(
   event: any,
   view: MapView,
@@ -14,6 +31,22 @@ function onGraphicUpdate(
     event.graphics[0].geometry,
     view
   );
+
+  const validSymbol = createSymbol(
+    [0, 170, 255, 0.8],
+    "solid",
+    2,
+    [255, 255, 255]
+  );
+  const invalidSymbol = createSymbol(
+    [255, 0, 0],
+    "diagonal-cross",
+    4,
+    [255, 0, 0]
+  );
+
+  event.graphics[0].symbol =
+    intersectingSegment !== null ? invalidSymbol : validSymbol;
 
   if (
     event.toolEventInfo &&
